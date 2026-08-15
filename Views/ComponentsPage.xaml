@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Page
+    x:Class="PickandPlace2026.Views.ComponentsPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:PickandPlace2026.Views"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:datagrid="using:CommunityToolkit.WinUI.UI.Controls"
+    mc:Ignorable="d">
+
+    <Grid Margin="16">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="Auto" />
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+
+        <TextBlock Text="Components Editor"
+                   Style="{StaticResource TitleTextBlockStyle}"
+                   Grid.Row="0" Grid.Column="0"
+                   VerticalAlignment="Center" />
+
+        <Button x:Name="bt_Load" Content="Reload" ToolTipService.ToolTip="Reload"
+                Grid.Row="0" Grid.Column="1" Margin="8,0" Click="bt_Load_Click" />
+        <Button x:Name="bt_Save" Content="Save" ToolTipService.ToolTip="Save"
+                Grid.Row="0" Grid.Column="2" Click="bt_Save_Click" />
+
+        <datagrid:DataGrid x:Name="dg_data"
+                            Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="3"
+                            CanUserResizeColumns="True"
+                            AutoGenerateColumns="False"
+                            CellEditEnded="dg_data_CellEditEnded" />
+    </Grid>
+</Page>

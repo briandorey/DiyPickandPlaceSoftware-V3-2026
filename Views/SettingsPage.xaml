@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Page
+    x:Class="PickandPlace2026.Views.SettingsPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:PickandPlace2026.Views"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d">
+
+    <Grid Margin="16">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+
+        <TextBlock Grid.Row="0"
+                   Text="Settings"
+                   Style="{StaticResource TitleTextBlockStyle}"
+                   Margin="0,0,0,12" />
+
+        <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto">
+            <StackPanel Spacing="20" MaxWidth="480" HorizontalAlignment="Left">
+
+                <StackPanel Spacing="6">
+                    <TextBlock Text="Nozzle Offsets" FontWeight="SemiBold" />
+                    <TextBlock Text="Calibrated offset from the camera center to each pick/place nozzle."
+                               Opacity="0.7" TextWrapping="Wrap" />
+                    <Grid ColumnSpacing="12" RowSpacing="8">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                        </Grid.RowDefinitions>
+
+                        <TextBlock Text="Nozzle 1 X" Grid.Row="0" Grid.Column="0" VerticalAlignment="Center" />
+                        <NumberBox x:Name="num_Nozzle1X" Grid.Row="0" Grid.Column="1" SpinButtonPlacementMode="Compact" SmallChange="0.01" />
+                        <TextBlock Text="Nozzle 1 Y" Grid.Row="0" Grid.Column="2" VerticalAlignment="Center" />
+                        <NumberBox x:Name="num_Nozzle1Y" Grid.Row="0" Grid.Column="3" SpinButtonPlacementMode="Compact" SmallChange="0.01" />
+
+                        <TextBlock Text="Nozzle 2 X" Grid.Row="1" Grid.Column="0" VerticalAlignment="Center" />
+                        <NumberBox x:Name="num_Nozzle2X" Grid.Row="1" Grid.Column="1" SpinButtonPlacementMode="Compact" SmallChange="0.01" />
+                        <TextBlock Text="Nozzle 2 Y" Grid.Row="1" Grid.Column="2" VerticalAlignment="Center" />
+                        <NumberBox x:Name="num_Nozzle2Y" Grid.Row="1" Grid.Column="3" SpinButtonPlacementMode="Compact" SmallChange="0.01" />
+                    </Grid>
+                </StackPanel>
+
+                <StackPanel Spacing="6">
+                    <TextBlock Text="Motion" FontWeight="SemiBold" />
+                    <TextBlock Text="Used by Manual Control's jog clearance and &quot;Run to Component&quot; move."
+                               Opacity="0.7" TextWrapping="Wrap" />
+                    <Grid ColumnSpacing="12" RowSpacing="8">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                        </Grid.RowDefinitions>
+
+                        <TextBlock Text="Clear Height" Grid.Row="0" Grid.Column="0" VerticalAlignment="Center" />
+                        <NumberBox x:Name="num_ClearHeight" Grid.Row="0" Grid.Column="1" SpinButtonPlacementMode="Compact" SmallChange="0.5" />
+
+                        <TextBlock Text="Pick Speed" Grid.Row="1" Grid.Column="0" VerticalAlignment="Center" />
+                        <NumberBox x:Name="num_PickSpeed" Grid.Row="1" Grid.Column="1" SpinButtonPlacementMode="Compact" SmallChange="5" />
+                    </Grid>
+                </StackPanel>
+
+                <StackPanel Orientation="Horizontal" Spacing="8">
+                    <Button x:Name="bt_Save" Content="Save" Click="bt_Save_Click" Style="{StaticResource AccentButtonStyle}" />
+                    <Button x:Name="bt_ResetDefaults" Content="Reset to Defaults" Click="bt_ResetDefaults_Click" />
+                </StackPanel>
+
+            </StackPanel>
+        </ScrollViewer>
+    </Grid>
+</Page>

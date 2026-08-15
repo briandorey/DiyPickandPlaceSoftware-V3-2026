@@ -1,0 +1,10 @@
+{
+  "profiles": {
+    "PickandPlace2026 (Package)": {
+      "commandName": "MsixPackage"
+    },
+    "PickandPlace2026 (Unpackaged)": {
+      "commandName": "Project"
+    }
+  }
+}

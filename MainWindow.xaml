@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Window
+    x:Class="PickandPlace2026.MainWindow"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:PickandPlace2026"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d"
+    Title="Pick and Place V3">
+    <Window.SystemBackdrop>
+        <MicaBackdrop />
+    </Window.SystemBackdrop>
+
+    <Grid>
+        <!-- Navigation shell -->
+        <NavigationView x:Name="NavView"
+                        PaneDisplayMode="Left"
+                        IsPaneOpen="False"
+                        IsBackButtonVisible="Collapsed"
+                        SelectionChanged="NavView_SelectionChanged">
+            <NavigationView.MenuItems>
+                <NavigationViewItem x:Name="NavItem_Home" Icon="Play" Content="Build PCB" Tag="home" />
+                <NavigationViewItem Icon="Edit" Content="Board Designer" Tag="designer" />
+                <NavigationViewItem Icon="List" Content="Components" Tag="components" />
+                <NavigationViewItem Icon="Manage" Content="Manual Control" Tag="manual" />
+            </NavigationView.MenuItems>
+
+            <!-- Physical-machine actions (home the gantry, flush the vacuum
+                 lines) - not page navigation, so these are plain buttons rather
+                 than NavigationViewItems, but styled to sit in the pane like one.
+                 PaneFooter content renders directly above NavigationView's
+                 built-in Settings entry. -->
+            <NavigationView.PaneFooter>
+                <StackPanel Orientation="Vertical" Spacing="2" Margin="4,0,4,8">
+                    <Button x:Name="Button_Home" Click="Button_Home_Click"
+                            HorizontalAlignment="Stretch" HorizontalContentAlignment="Left"
+                            Background="Transparent" BorderThickness="0" Padding="12,8">
+                        <StackPanel Orientation="Horizontal" Spacing="16">
+                            <FontIcon Glyph="&#xE80F;" FontSize="16" />
+                            <TextBlock Text="Home Machine" />
+                        </StackPanel>
+                    </Button>
+                    <Button x:Name="Button_FlushVac" Click="Button_FlushVac_Click"
+                            HorizontalAlignment="Stretch" HorizontalContentAlignment="Left"
+                            Background="Transparent" BorderThickness="0" Padding="12,8">
+                        <StackPanel Orientation="Horizontal" Spacing="16">
+                            <FontIcon Glyph="&#xE72C;" FontSize="16" />
+                            <TextBlock Text="Flush Vacuum" />
+                        </StackPanel>
+                    </Button>
+                </StackPanel>
+            </NavigationView.PaneFooter>
+
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="*" />
+                </Grid.RowDefinitions>
+
+                <!-- Status bar -->
+                <InfoBar x:Name="StatusInfoBar"
+                         IsOpen="False" />
+
+                <!-- Page host -->
+                <Frame x:Name="ContentFrame" Grid.Row="1" />
+            </Grid>
+        </NavigationView>
+    </Grid>
+</Window>
