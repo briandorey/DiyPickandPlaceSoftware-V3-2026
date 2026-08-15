@@ -9,6 +9,8 @@ This version uses Windows Presentation Foundation and ASP.Net 10 and the old vid
 
 KMotion5.4.5 is required for communication with the controller this can be downloaded and installed from https://www.store.dynomotion.com/pages/download
 
+Some of the conversion from the legacy version was assisted by Claude Code AI to find replacements and upgraded libaries to use in the new frameworks.
+
 ## Stream Deck / global hotkeys
 
 The app registers global hotkeys (Windows `RegisterHotKey`, handled in
