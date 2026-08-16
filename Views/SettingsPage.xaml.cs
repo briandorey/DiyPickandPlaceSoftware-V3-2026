@@ -22,6 +22,8 @@ namespace PickandPlace2026.Views
             num_Nozzle2Y.Value = s.Nozzle2Yoffset;
             num_ClearHeight.Value = s.ClearHeight;
             num_PickSpeed.Value = s.PickSpeed;
+            num_ZAxisNozzleLengthOffset.Value = s.ZAxisNozzleLengthOffset;
+            num_AAxisNozzleLengthOffset.Value = s.AAxisNozzleLengthOffset;
         }
 
         private void bt_Save_Click(object sender, RoutedEventArgs e)
@@ -33,6 +35,8 @@ namespace PickandPlace2026.Views
             s.Nozzle2Yoffset = num_Nozzle2Y.Value;
             s.ClearHeight = num_ClearHeight.Value;
             s.PickSpeed = num_PickSpeed.Value;
+            s.ZAxisNozzleLengthOffset = num_ZAxisNozzleLengthOffset.Value;
+            s.AAxisNozzleLengthOffset = num_AAxisNozzleLengthOffset.Value;
             s.Save();
 
             _app.ReportStatus("Settings saved", InfoBarSeverity.Success);

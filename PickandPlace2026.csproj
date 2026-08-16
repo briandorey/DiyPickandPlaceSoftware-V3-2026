@@ -91,7 +91,10 @@
     <Folder Include="DataFiles\" />
     <Folder Include="Lib\" />
   </ItemGroup>
-    <ItemGroup>
+  <ItemGroup>
+    <None Include="..\PickandPlacev3\PickandPlaceV3\usbGenericHidCommunications.dll" Link="Lib\usbGenericHidCommunications.dll" />
+  </ItemGroup>
+  <ItemGroup>
     <Reference Include="KMotion_dotNet">
       <HintPath>Lib\KMotion_dotNet.dll</HintPath>
     </Reference>

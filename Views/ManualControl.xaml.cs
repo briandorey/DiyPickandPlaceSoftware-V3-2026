@@ -150,6 +150,16 @@ namespace PickandPlace2026.Views
             }
         }
 
+        // With NavigationCacheMode enabled, the constructor only runs once for
+        // this page's lifetime, so a ClearHeight edited on the Settings page
+        // needs to be re-read here on every return visit rather than relying
+        // on the constructor's one-time snapshot.
+        protected override void OnNavigatedTo(Microsoft.UI.Xaml.Navigation.NavigationEventArgs e)
+        {
+            base.OnNavigatedTo(e);
+            ClearHeight = _app.Settings.ClearHeight;
+        }
+
         private void SetStatus(string message, InfoBarSeverity severity = InfoBarSeverity.Informational)
         {
             ((App)Application.Current).ReportStatus(message, severity);

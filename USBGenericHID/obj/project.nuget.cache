@@ -1,0 +1,10 @@
+{
+  "version": 2,
+  "dgSpecHash": "UWZR0Xc5Tjc=",
+  "success": true,
+  "projectFilePath": "D:\\USBGenericHID\\usbGenericHidCommunications.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\roofpc\\.nuget\\packages\\microsoft.windows.sdk.net.ref\\10.0.19041.57\\microsoft.windows.sdk.net.ref.10.0.19041.57.nupkg.sha512"
+  ],
+  "logs": []
+}

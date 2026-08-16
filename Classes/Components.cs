@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text.Json;
+using Microsoft.UI.Xaml;
 
 namespace PickandPlace2026.Classes
 {
@@ -58,12 +59,22 @@ namespace PickandPlace2026.Classes
 
         public double GetPlacementHeight(string fid)
         {
-            return Find(fid)?.PlacementHeight ?? 0.0;
+            Component? c = Find(fid);
+            if (c == null) return 0.0;
+            return c.PlacementHeight - GetNozzleLengthOffset(c.FeederID);
         }
 
         public double GetFeederHeight(string fid)
         {
-            return Find(fid)?.FeederHeight ?? 0.0;
+            Component? c = Find(fid);
+            if (c == null) return 0.0;
+            return c.FeederHeight - GetNozzleLengthOffset(c.FeederID);
+        }
+
+        private static double GetNozzleLengthOffset(int feederID)
+        {
+            AppSettings settings = ((App)Application.Current).Settings;
+            return feederID >= 20 ? settings.AAxisNozzleLengthOffset : settings.ZAxisNozzleLengthOffset;
         }
 
         public double GetPlaceSpeed(string fid, double feedrate)

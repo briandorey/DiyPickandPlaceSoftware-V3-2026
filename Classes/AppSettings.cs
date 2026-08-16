@@ -15,6 +15,13 @@ namespace PickandPlace2026.Classes
         public double ClearHeight { get; set; } = 15;
         public double PickSpeed { get; set; } = 50;
 
+        // Difference in physical length between the current feeder nozzles and the
+        // ones the saved component heights were originally calibrated against.
+        // Subtracted from FeederHeight/PlacementHeight in Components.cs so a nozzle
+        // swap doesn't require re-entering every component's height.
+        public double ZAxisNozzleLengthOffset { get; set; } = 12.36;
+        public double AAxisNozzleLengthOffset { get; set; } = 13.53;
+
         private static string FilePath =>
             Path.Combine(AppContext.BaseDirectory, "DataFiles", "settings.json");
 

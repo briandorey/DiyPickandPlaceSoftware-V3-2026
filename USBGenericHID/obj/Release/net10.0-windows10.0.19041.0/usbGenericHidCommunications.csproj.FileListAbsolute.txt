@@ -1,0 +1,11 @@
+D:\USBGenericHID\bin\Release\net10.0-windows10.0.19041.0\usbGenericHidCommunications.deps.json
+D:\USBGenericHID\bin\Release\net10.0-windows10.0.19041.0\usbGenericHidCommunications.dll
+D:\USBGenericHID\bin\Release\net10.0-windows10.0.19041.0\usbGenericHidCommunications.pdb
+D:\USBGenericHID\obj\Release\net10.0-windows10.0.19041.0\usbGenericHidCommunications.GeneratedMSBuildEditorConfig.editorconfig
+D:\USBGenericHID\obj\Release\net10.0-windows10.0.19041.0\usbGenericHidCommunications.AssemblyInfoInputs.cache
+D:\USBGenericHID\obj\Release\net10.0-windows10.0.19041.0\usbGenericHidCommunications.AssemblyInfo.cs
+D:\USBGenericHID\obj\Release\net10.0-windows10.0.19041.0\usbGenericHidCommunications.csproj.CoreCompileInputs.cache
+D:\USBGenericHID\obj\Release\net10.0-windows10.0.19041.0\usbGenericHidCommunications.dll
+D:\USBGenericHID\obj\Release\net10.0-windows10.0.19041.0\refint\usbGenericHidCommunications.dll
+D:\USBGenericHID\obj\Release\net10.0-windows10.0.19041.0\usbGenericHidCommunications.pdb
+D:\USBGenericHID\obj\Release\net10.0-windows10.0.19041.0\ref\usbGenericHidCommunications.dll

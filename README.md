@@ -49,3 +49,7 @@ Get-ChildItem "C:\PickAndPlace" -Directory | Where-Object {
     $_.Name -ne 'en-GB' -and (Test-Path (Join-Path $_.FullName 'Microsoft.ui.xaml.dll.mui'))
 } | Remove-Item -Recurse -Force
 ```
+
+## USBGenericHID folder
+
+This folder contains an upgraded USB library from https://www.waitingforfriday.com/?p=415 which has been changed to remove the Windows.Forms requirement and is now 64 bit
