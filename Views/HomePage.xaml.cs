@@ -24,7 +24,9 @@ namespace PickandPlace2026.Views
         private Board? _board;
         private ObservableCollection<BoardComponent> _components = new();
 
-        private readonly Components _comp = new Components();
+        // Shared App.comp instance, not a page-local Components() - see the comment
+        // on PCBBuilder.comp for why a separate instance here would go stale.
+        private Components _comp => ((App)Application.Current).comp;
         private readonly App _app = (App)Application.Current;
         private UsbDevice _usbController;
         private readonly Kflop _kflop;
@@ -42,6 +44,7 @@ namespace PickandPlace2026.Views
             };
             _app.pcbBuilder.ErrorOccurred += (s, message) => SetStatus(message, InfoBarSeverity.Error);
             _app.pcbBuilder.BuildProgress += (s, message) => SetStatus(message);
+            _app.pcbBuilder.BuildFinished += (s, e) => DispatcherQueue.TryEnqueue(() => bt_Start.IsEnabled = true);
 
             string saveDir = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + "\\pickandplacelogs\\";
             System.IO.Directory.CreateDirectory(saveDir);
@@ -305,6 +308,16 @@ namespace PickandPlace2026.Views
         // MainWindow.TriggerHomePageAction.
         internal void Bt_Start_Click(object sender, RoutedEventArgs? e)
         {
+            // Guards both a mashed/double-clicked button (also disabled below,
+            // but that alone doesn't cover the Stream Deck hotkey path, which
+            // calls this method directly - see MainWindow.HotkeyWndProc) and a
+            // stale enabled button, without waiting on the button's own state.
+            if (_app.pcbBuilder.IsBuilding)
+            {
+                SetStatus("Build already in progress.");
+                return;
+            }
+
             if (_board == null)
             {
                 SetStatus("Load a board file first.", InfoBarSeverity.Error);
@@ -317,6 +330,7 @@ namespace PickandPlace2026.Views
                 if (_app.pcbBuilder.ActivateBuildProcess(int.Parse(csfeeder.Text), isHighSpeed))
                 {
                     SetStatus("Build started");
+                    bt_Start.IsEnabled = false;
                 }
             }
             else

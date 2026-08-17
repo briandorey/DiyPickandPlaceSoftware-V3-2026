@@ -23,7 +23,9 @@ namespace PickandPlace2026.Views
 
         private readonly App _app;
         private readonly Kflop _kflop;
-        private readonly Components _comp = new Components();
+        // Shared App.comp instance, not a page-local Components() - see the comment
+        // on PCBBuilder.comp for why a separate instance here would go stale.
+        private Components _comp => ((App)Application.Current).comp;
         private UsbDevice _usbController;
 
         public KflopLocation kfl = new KflopLocation(0, 100, 100, 0, 0, 0, 0, 0, 0, 0, false, false);

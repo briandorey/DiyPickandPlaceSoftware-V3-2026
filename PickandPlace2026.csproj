@@ -21,8 +21,21 @@
   </ItemGroup>
 
   <ItemGroup>
+    <!--
+      CopyToPublishDirectory=Never: components.json is live operator data once
+      deployed (edited/saved from the Components page at the publish
+      destination), not a static asset to overwrite on every publish. The
+      built-in PreserveNewest copy compares file length as well as
+      timestamp, so it isn't safe here - the live file's formatting differs
+      in size from this repo copy even when its data is unrelated/newer, and
+      would get overwritten. CopyComponentsJsonIfNewer below replaces it with
+      an explicit "only if this repo's file is actually newer" copy, run
+      after Publish. CopyToOutputDirectory is untouched, so local
+      build/debug runs (bin\...\DataFiles) still get PreserveNewest as before.
+    -->
     <Content Include="DataFiles\components.json" Link="DataFiles\components.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <CopyToPublishDirectory>Never</CopyToPublishDirectory>
     </Content>
     <Content Include="Assets\SplashScreen.scale-200.png" />
     <Content Include="Assets\LockScreenLogo.scale-200.png" />
@@ -143,4 +156,28 @@
     you don't want deleted. Native DLL resolution for KMotion is now handled in
     App.xaml.cs via SetDllDirectory instead, which doesn't touch that folder at all.
   -->
+
+  <!--
+    components.json is excluded from the normal publish copy above
+    (CopyToPublishDirectory=Never) because the deployed copy is live operator
+    data, not a static asset - see the comment on that Content item. This
+    target puts it back, but only when this repo's copy is genuinely newer
+    than whatever is already at the publish destination (or nothing is there
+    yet), so republishing the app never clobbers component edits made from
+    the running app since the last publish.
+  -->
+  <Target Name="CopyComponentsJsonIfNewer" AfterTargets="Publish">
+    <PropertyGroup>
+      <_ComponentsJsonSource>$(MSBuildProjectDirectory)\DataFiles\components.json</_ComponentsJsonSource>
+      <_ComponentsJsonDest>$(PublishDir)DataFiles\components.json</_ComponentsJsonDest>
+      <_ComponentsJsonDestExists>false</_ComponentsJsonDestExists>
+      <_ComponentsJsonDestExists Condition="Exists('$(_ComponentsJsonDest)')">true</_ComponentsJsonDestExists>
+      <_ComponentsJsonSourceTicks Condition="Exists('$(_ComponentsJsonSource)')">$([System.IO.File]::GetLastWriteTime('$(_ComponentsJsonSource)').Ticks)</_ComponentsJsonSourceTicks>
+      <_ComponentsJsonDestTicks Condition="'$(_ComponentsJsonDestExists)'=='true'">$([System.IO.File]::GetLastWriteTime('$(_ComponentsJsonDest)').Ticks)</_ComponentsJsonDestTicks>
+    </PropertyGroup>
+    <Copy
+      SourceFiles="$(_ComponentsJsonSource)"
+      DestinationFiles="$(_ComponentsJsonDest)"
+      Condition="Exists('$(_ComponentsJsonSource)') And ('$(_ComponentsJsonDestExists)'=='false' Or $(_ComponentsJsonSourceTicks) &gt; $(_ComponentsJsonDestTicks))" />
+  </Target>
 </Project>

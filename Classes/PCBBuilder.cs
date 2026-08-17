@@ -24,7 +24,14 @@ namespace PickandPlace2026.Classes
         DataTable dtLog = new DataTable();
         string _LogFile = "";
 
-        private Components comp = new Components();
+        // Shared with every other reader/writer of component data (ComponentsPage,
+        // HomePage, BoardDesigner, ManualControl) via App.comp, rather than each
+        // holding its own Components instance - Components.CheckComponentTable()
+        // only loads from disk once per instance (while its in-memory list is
+        // empty), so a PCBBuilder-local instance would keep serving whatever it
+        // first loaded for the rest of the app session even after a save from the
+        // Components page wrote fresh data to components.json.
+        private Components comp => ((App)Application.Current).comp;
 
         // Not set by the constructor - populated by SetupPCBBuilder(), which
         // runs every time a board is loaded (HomePage), before any build can
@@ -92,6 +99,11 @@ namespace PickandPlace2026.Classes
 
         private readonly BackgroundWorker backgroundWorkerBuildPCB = new BackgroundWorker();
 
+        // Lets callers (HomePage's Start button/hotkey) check synchronously before
+        // trying to start another build, in addition to the same check inside
+        // ActivateBuildProcess itself - see the comment there on why both exist.
+        public bool IsBuilding => backgroundWorkerBuildPCB.IsBusy;
+
         /// <summary>
         /// Raised when an error occurs, including from background threads (the build
         /// worker and the camera capture callback). This class cannot show a
@@ -110,6 +122,16 @@ namespace PickandPlace2026.Classes
         /// Trajectory Planner warning), but useful on its own regardless.
         /// </summary>
         public event EventHandler<string>? BuildProgress;
+
+        /// <summary>
+        /// Raised once a build's background worker has completed, whether it
+        /// finished normally, was cancelled, or failed with an exception -
+        /// RunWorkerCompleted fires for all three, so this always fires exactly
+        /// once per ActivateBuildProcess call that returned true. Subscribers
+        /// should marshal to the UI thread themselves (e.g. via
+        /// DispatcherQueue.TryEnqueue), same as ErrorOccurred/BuildProgress.
+        /// </summary>
+        public event EventHandler? BuildFinished;
 
         private void RaiseProgress(string message)
         {
@@ -434,6 +456,8 @@ namespace PickandPlace2026.Classes
             {
                 RaiseError("Build failed: " + e.Error.Message);
             }
+
+            BuildFinished?.Invoke(this, EventArgs.Empty);
         }
 
         public KflopLocation CheckWithCamera(KflopLocation kfl, Kflop kf, int nozzle, UsbDevice usbController, Image imgref)
@@ -679,6 +703,11 @@ namespace PickandPlace2026.Classes
                 return false;
             }
 
+            // Kept even though HomePage.Bt_Start_Click now checks IsBuilding first
+            // and disables its Start button while a build runs - this is the
+            // authoritative guard against a second build actually starting,
+            // covering any other caller (e.g. a future hotkey/automation path)
+            // that reaches ActivateBuildProcess without going through that check.
             if (backgroundWorkerBuildPCB.IsBusy)
             {
                 RaiseError("Cannot start build: a build is already running.");
